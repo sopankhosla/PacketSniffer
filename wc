@@ -1,0 +1,73 @@
+# variables
+ch1="  [Channel 1   -  Frequency 2.412 GHz]";
+ch2="  [Channel 2   -  Frequency 2.417 GHz]";
+ch3="  [Channel 3   -  Frequency 2.422 GHz]";
+ch4="  [Channel 4   -  Frequency 2.427 GHz]";
+ch5="  [Channel 5   -  Frequency 2.432 GHz]";
+ch6="  [Channel 6   -  Frequency 2.437 GHz]";
+ch7="  [Channel 7   -  Frequency 2.442 GHz]";
+ch8="  [Channel 8   -  Frequency 2.447 GHz]";
+ch9="  [Channel 9   -  Frequency 2.452 GHz]";
+ch10="  [Channel 10  -  Frequency 2.457 GHz]";
+ch11="  [Channel 11  -  Frequency 2.462 GHz]";
+ch12="  [Channel 12  -  Frequency 2.467 GHz]";
+ch13="  [Channel 13  -  Frequency 2.472 GHz]";
+ch14="  [Channel 14  -  Frequency 2.484 GHz]";
+
+# script execution
+if [ "$#" -eq "1" ] && [ "$1" == "-cl" ]; then
+   echo -e "\n\e[1;36mList of Channels & Frequencies:\e[0m";
+   echo -e "$ch1\n$ch2\n$ch3\n$ch4\n$ch5\n$ch6\n$ch7\n$ch8\n$ch9\n$ch10\n$ch11\n$ch12\n$ch13\n"; 
+   echo -e "\e[0m";
+   exit 0   
+fi
+
+if [ "$#" -eq "1" ] && [ "$1" == "-h" ]; then
+   echo -e "\n\e[4;36m\"wc - WifiChannel\" Scripted by Geolos\e[0m";
+   echo -e "\e[1;32mUsage:\e[0m"; 
+   echo -e "  wc [interface] [channel]";
+   echo -e "  wc [option]";
+   echo -e "    -cl";
+   echo -e "    -h";
+   echo -e "\n\e[1;32mExamples:\e[0m";
+   echo -e "  wc wlan0 5       Change channel of interface 'wlan0' to 5";
+   echo -e "  wc -cl           List channels 1-14 with their frequencies";
+   echo -e "  wc -h            display this help and exit\n";         
+   exit 0
+fi
+
+if [ "$#" -ne 2 ]; 
+      then echo -e "\n\e[1;31mInvalid arguments...\e[0m";
+           echo -e "  Try: wchannel -h";
+   else 
+      if [ "$#" -eq 2 ]; then
+         echo -e "\e[1;31m";
+         sudo ifconfig $1 down
+         sudo iwconfig $1 mode monitor
+         sudo ifconfig $1 up
+	 sudo iwconfig $1 chan $2
+
+         if [ "$2" == 1 ];  then echo -e "\n\e[0;32m  Requested:            $ch1"; fi
+         if [ "$2" == 2 ];  then echo -e "\n\e[0;32m  Requested:            $ch2"; fi
+         if [ "$2" == 3 ];  then echo -e "\n\e[0;32m  Requested:            $ch3"; fi
+         if [ "$2" == 4 ];  then echo -e "\n\e[0;32m  Requested:            $ch4"; fi
+         if [ "$2" == 5 ];  then echo -e "\n\e[0;32m  Requested:            $ch5"; fi
+         if [ "$2" == 6 ];  then echo -e "\n\e[0;32m  Requested:            $ch6"; fi
+         if [ "$2" == 7 ];  then echo -e "\n\e[0;32m  Requested:            $ch7"; fi
+         if [ "$2" == 8 ];  then echo -e "\n\e[0;32m  Requested:            $ch8"; fi
+         if [ "$2" == 9 ];  then echo -e "\n\e[0;32m  Requested:            $ch9"; fi
+         if [ "$2" == 10 ]; then echo -e "\n\e[0;32m  Requested:            $ch10"; fi
+         if [ "$2" == 11 ]; then echo -e "\n\e[0;32m  Requested:            $ch11"; fi
+         if [ "$2" == 12 ]; then echo -e "\n\e[0;32m  Requested:            $ch12"; fi
+         if [ "$2" == 13 ]; then echo -e "\n\e[0;32m  Requested:            $ch13"; fi
+         if [ "$2" == 14 ]; then echo -e "\n\e[0;32m  Requested:            $ch14"; fi
+
+         echo -e "  \e[1;32mCurrent set:\e[0m";
+         echo -e "  \c";
+         tput sgr0  #return to normal shell color
+         iwconfig $1 | grep "Frequency"
+      fi
+fi
+
+echo "";
+exit 0
